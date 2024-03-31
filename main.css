@@ -1,0 +1,41 @@
+.cal-container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 300px;
+}
+
+#result {
+  background-color: rgb(37, 34, 34);
+  color: white;
+  font-size: 24px;
+  height: 1.3em;
+  padding: 10px;
+  text-align: right;
+}
+
+.cal-base table {
+  width: 100%;
+}
+
+.cal-base tbody {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.cal-base tr {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+}
+
+.cal-base td {
+  display: block;
+  width: 100%;
+}
+
+.cal-base td button {
+  display: inherit;
+  width: inherit;
+}
