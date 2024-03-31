@@ -30,7 +30,7 @@ $(document).ready(function () {
   $("#Bequal").click(function () { Cal(); });
 
 
-  function calEval(obj) {
+  function calEval() {
     let i = new BigNumber(register_first);
     let j = new BigNumber(register_second);
     switch (register_params) {
@@ -66,7 +66,7 @@ $(document).ready(function () {
   }
 
   function refreshResult() {
-    console.log("f:" + register_first + " p:" + register_params + " s:" + register_second);
+    // console.log("f:" + register_first + " p:" + register_params + " s:" + register_second);
     if (state < 3) $("#result").text(register_first + register_params);
     if (state === 3) $("#result").text(register_first + register_params + register_second);
   }
@@ -79,7 +79,7 @@ $(document).ready(function () {
   }
 
   function setRegister(str) {
-    console.log("now:" + str);
+    // console.log("now:" + str);
     if (register_first.toString().includes(ERRORCODE)) return 0;
     if (state === 2) state = 3;
     if (state === 1) {
