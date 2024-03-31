@@ -4,8 +4,8 @@ $(document).ready(function () {
   let register_params = "";
   //state 1:first, 2:params, 3:second
   let state = 1;
-  //priod checkflag
-  let set_priod = 0;
+  //div0error
+  const ERRORCODE = "error!";
 
   $("#B0").click(function () { setRegister("0"); });
   $("#B00").click(function () { setRegister("00"); });
@@ -19,19 +19,14 @@ $(document).ready(function () {
   $("#B8").click(function () { setRegister("8"); });
   $("#B9").click(function () { setRegister("9"); });
 
-  $("#Bpriod").click(function () {
-    if (set_priod === 0) {
-      setRegister(".");
-      set_priod = 1;
-    }
-  });
+  $("#Bpriod").click(function () { setRegister("."); });
 
   $("#Bplus").click(function () { setParams("+"); });
   $("#Bminus").click(function () { setParams("-"); });
   $("#Bmulti").click(function () { setParams("*"); });
   $("#Bdiv").click(function () { setParams("/"); });
 
-  $("#BAC").click(function () { set_priod = 0; setBlank(); });
+  $("#BAC").click(function () { setBlank(); });
   $("#Bequal").click(function () { Cal(); });
 
 
@@ -60,7 +55,7 @@ $(document).ready(function () {
     }
     let work;
     if (register_params === "/" && register_second == 0) {
-      work = "error!div0!";
+      work = ERRORCODE + "div0";
     } else if (state === 1) {
       work = register_first;
     } else
@@ -76,31 +71,32 @@ $(document).ready(function () {
     if (state === 3) $("#result").text(register_first + register_params + register_second);
   }
 
-  function modRegister(str) {
-    if (str.includes(".")) return str;
-    else return Number(str).toString();
+  function modRegister(register, str) {
+    if (register.toString().includes(".") && str === ".") return register;
+    else if (!register.toString().includes(".") && str === ".") return register + str;
+    else if (register.toString().includes(".")) return register + str;
+    else return Number(register + str).toString();
   }
 
   function setRegister(str) {
-    // console.log("now:" + str);
+    console.log("now:" + str);
+    if (register_first.toString().includes(ERRORCODE)) return 0;
     if (state === 2) state = 3;
-
-    if (state === 1 && str == "." && register_first.includes(".")) { }
-    else if (state === 1) {
-      register_first = modRegister(register_first + str);
+    if (state === 1) {
+      register_first = modRegister(register_first, str);
     } else if (state === 3) {
-      register_second = modRegister(register_second + str);
+      register_second = modRegister(register_second, str);
     }
     refreshResult();
   }
 
   function setParams(str) {
+    if (register_first.toString().includes(ERRORCODE)) return 0;
     if (state === 1) state = 2;
     if (state === 3) {
       Cal();
       state = 2;
     }
-    set_priod = 0;
     register_params = str;
     refreshResult();
   }
